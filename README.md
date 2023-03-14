@@ -28,3 +28,17 @@ If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has a
 ## Compiles and minifies for production
 
 `npm run build`
+
+## 路由配置
+
+> 本项目会根据`views`中的文件自动生成路由并且自动配置菜单，规则如下：
+
+1.一个文件夹代表一个路由和菜单，包含：
+
+-  一个入口页面：`index.vue`(可选)。
+
+   -  如果页面文件中有`index.vue`,说明这是一个页面文件，否则这是一个父级菜单。
+
+-  一个配置文件：`page.js`(必填)。
+
+   -  里面配置菜单的标题等：`export default {title:'\*\*\*'}`。
