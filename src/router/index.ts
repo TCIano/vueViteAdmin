@@ -76,7 +76,6 @@ function filesToTreeNodes(arr: Array<string>) {
    objectToArr(tree)
    return Object.values(tree)
 }
-console.log(dirRoutes);
 
 const routes: Array<RouteRecordRaw> = [
    {

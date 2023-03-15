@@ -1,5 +1,5 @@
 <template>
-   <a-layout-sider breakpoint="lg" mode="inline" style="height: 100vh">
+   <a-layout-sider mode="inline">
       <div class="logo" />
       <a-menu
          id="menu"
@@ -10,12 +10,12 @@
       >
          <template v-for="item in props.menuList" :key="item.name">
             <template v-if="!item.children">
-               <a-menu-item :key="item.name">
+               <a-menu-item :key="item.name" v-if="!item.meta.hidden">
                   <template #icon>
                      <!-- 图标 -->
                      <!-- <SettingOutlined /> -->
                   </template>
-                  <router-link :to="item.path">{{ item.meta.title }}</router-link>
+                  <router-link :to="item.path">{{ item.meta?.title || item.name }}</router-link>
                </a-menu-item>
             </template>
             <template v-else>
@@ -36,10 +36,19 @@ let openKeys = ref<string[]>()
 const props = defineProps({
    menuList: Array,
 })
-// console.log(props.menuList)
 </script>
 
 <style scoped lang="less">
+.admin-layout {
+   .side-menu {
+      &.fixed-side {
+         position: fixed;
+         height: 100vh;
+         left: 0;
+         top: 0;
+      }
+   }
+}
 .logo {
    height: 32px;
    background: rgba(255, 255, 255, 0.2);

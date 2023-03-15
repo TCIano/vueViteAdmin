@@ -42,3 +42,5 @@ If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has a
 -  一个配置文件：`page.js`(必填)。
 
    -  里面配置菜单的标题等：`export default {title:'\*\*\*'}`。
+
+2.如果此路是类似传参路由且不想展示在菜单栏时，可以在 page.js 中增加增加 `hidden：true`
