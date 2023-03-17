@@ -1,19 +1,20 @@
 <template>
-   <a-layout-sider mode="inline">
+   <a-layout-sider mode="inline" v-model:collapsed="props.collapsed">
       <div class="logo" />
       <a-menu
          id="menu"
          theme="dark"
          mode="inline"
          v-model:openKeys="openKeys"
-         v-model:selectedKeys="selectedKeys"
+         :selectedKeys="selectedKeys"
+         @click="onClickItemMenu"
       >
          <template v-for="item in props.menuList" :key="item.name">
             <template v-if="!item.children">
-               <a-menu-item :key="item.name" v-if="!item.meta.hidden">
+               <a-menu-item :key="item.path" :title="item.meta?.title" v-if="!item.meta.hidden">
                   <template #icon>
                      <!-- 图标 -->
-                     <!-- <SettingOutlined /> -->
+                     <SettingOutlined />
                   </template>
                   <router-link :to="item.path">{{ item.meta?.title || item.name }}</router-link>
                </a-menu-item>
@@ -30,12 +31,15 @@
 <script setup lang="ts" name="MySider">
 import SubMenu from '../menu/index.vue'
 import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue'
-
-let selectedKeys = ref<string[]>() //默认选择第一个
+import { MenuItem } from '../../layout/type'
 let openKeys = ref<string[]>()
-const props = defineProps({
-   menuList: Array,
-})
+const props = defineProps(['menuList', 'collapsed', 'selectedKeys'])
+const emit = defineEmits(['clickMenu'])
+// 点击菜单栏
+const onClickItemMenu = (menuItem: MenuItem) => {
+   console.log(menuItem)
+   emit('clickMenu', menuItem)
+}
 </script>
 
 <style scoped lang="less">

@@ -4,7 +4,7 @@ import homeView from '../layout/homeView.vue'
 declare module 'vue-router' {
    interface RouteMeta {
       title: string,
-      parentMenu?: boolean
+      hidden?: boolean
    }
 }
 
@@ -27,7 +27,7 @@ interface tree {
    path?: string
    meta?: {
       title: string,
-      parentMenu?: boolean
+      hidden?: boolean
    },
    children?: tree[]
    component?: any
@@ -37,6 +37,8 @@ interface pretr {
 }
 
 const dirRoutes = filesToTreeNodes(allDir)
+console.log(dirRoutes);
+
 function filesToTreeNodes(arr: Array<string>) {
    var tree: tree = {}
    function addnode(node: string) {
@@ -81,7 +83,7 @@ const routes: Array<RouteRecordRaw> = [
    {
       path: '/',
       name: 'homeView',
-      redirect: dirRoutes[0].children ? dirRoutes[0].children[0].path : dirRoutes[0].path,
+      redirect: '/two',
       component: homeView,
       children: dirRoutes,
    },

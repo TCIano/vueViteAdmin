@@ -4,10 +4,8 @@ body {
   height: 100%;
 }
 .beauty-scroll {
-  scrollbar-color: #7caeee;
+  scrollbar-color: #206864;
   scrollbar-width: thin;
-  scroll-behavior: smooth;
-  overflow: auto;
   -ms-overflow-style: none;
   position: relative;
 }
@@ -17,10 +15,8 @@ body {
 }
 .beauty-scroll::-webkit-scrollbar-thumb {
   border-radius: 3px;
-  background: #ccc;
+  background: #5aa4ae;
 }
 .beauty-scroll::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0);
-  border-radius: 3px;
-  background: #ccc;
+  background: transparent;
 }
