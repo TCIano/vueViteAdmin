@@ -60,7 +60,10 @@ let matches: Array<any> = useRoute().matched
 selectedKeys.value = [
    matches[0].children.find((item: matches0) => item.path === matches[0].redirect).path,
 ]
-
+/**
+ * 菜单栏和tabs栏目逻辑切换
+ * (写的有些繁琐，需要修改)
+ */
 const tabsList = ref<tabsList[]>([])
 let activeKey = ref('') //当前tabs栏目选中
 tabsList.value = [
@@ -77,12 +80,19 @@ const changePane = (active: string) => {
    router.push({
       path: active,
    })
+   selectedKeys.value = [active]
 }
 // tab栏关闭逻辑
-const tabsClose = (tabKey: string) => {
+const tabsClose = (tabKey: string, currentActiveKey: string) => {
    if (tabsList.value.length === 1) return message.warning('已经是最后一个了')
    tabsList.value = tabsList.value.filter(item => item.path !== tabKey)
-   activeKey.value = tabsList.value[tabsList.value.length - 1].path
+   if (tabKey === currentActiveKey) {
+      activeKey.value = tabsList.value[tabsList.value.length - 1].path
+      selectedKeys.value = [activeKey.value]
+      router.push({
+         path: activeKey.value,
+      })
+   }
 }
 // 点击侧边栏逻辑
 const clickMenu = (menuItem: MenuItem) => {

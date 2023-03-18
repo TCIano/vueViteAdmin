@@ -40,7 +40,7 @@ const toggleCollapse = () => {
 
 // 关闭tabs栏按钮
 const handelClose = (tabKey: string) => {
-   emit('tabsClose', tabKey)
+   emit('tabsClose', tabKey, props.activeKey)
 }
 //切换面板
 const onChangePane = (activeKey: string) => {
