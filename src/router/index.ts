@@ -52,7 +52,7 @@ function filesToTreeNodes(arr: Array<string>) {
             path: '/' + splitpath[i],
             name: name.split('/').filter(Boolean).join('-'),
             ...(i < splitpath.length - 1 ? {} : { component: importCom['../views' + name + '/index.vue'] }),//最后一个节点才有页面，其余都是祖先节点
-            meta: importPage['../views' + name + '/page.js']
+            meta: importPage['../views' + name + '/page.js'] || {}
             // isDirectory: true
          };
          pretr[splitpath[i]] = pretr[splitpath[i]] || node;

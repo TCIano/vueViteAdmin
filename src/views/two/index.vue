@@ -5,7 +5,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue'
+import {
+   ref,
+   reactive,
+   toRefs,
+   onBeforeMount,
+   onMounted,
+   watchEffect,
+   computed,
+   onActivated,
+} from 'vue'
+onActivated(() => {
+   console.log('缓存')
+})
 </script>
 
 <style scoped lang="less"></style>

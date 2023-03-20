@@ -1,6 +1,9 @@
 <template>
-   <a-layout-sider mode="inline" v-model:collapsed="props.collapsed">
-      <div class="logo" />
+   <a-layout-sider mode="inline" width="256px" v-model:collapsed="props.collapsed">
+      <div class="logo">
+         <img src="@/assets/image/profile(1).png" />
+         <h1>后台管理</h1>
+      </div>
       <a-menu
          id="menu"
          theme="dark"
@@ -54,9 +57,31 @@ const onClickItemMenu = (menuItem: MenuItem) => {
    }
 }
 .logo {
-   height: 32px;
-   background: rgba(255, 255, 255, 0.2);
-   margin: 16px;
+   height: 64px;
+   position: relative;
+   line-height: 64px;
+   padding-left: 15px;
+   -webkit-transition: all 0.3s;
+   transition: all 0.3s;
+   overflow: hidden;
+   background-color: #001529;
+   // &.light {
+   //    background-color: #fff;
+   //    h1 {
+   //       color: @primary-color;
+   //    }
+   // }
+   h1 {
+      color: #fff;
+      font-size: 20px;
+      margin: 0 0 0 50px;
+      display: inline-block;
+      vertical-align: middle;
+   }
+   img {
+      width: 46px;
+      vertical-align: middle;
+   }
 }
 
 .site-layout-sub-header-background {

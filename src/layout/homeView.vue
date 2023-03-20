@@ -11,7 +11,7 @@
       <!-- 内容 -->
       <a-layout
          class="beauty-scroll admin-layout-main"
-         :style="{ marginLeft: !collapsed ? '200px' : '80px' }"
+         :style="{ marginLeft: !collapsed ? '256px' : '80px' }"
       >
          <HeadertView
             class="admin-header"
@@ -30,7 +30,13 @@
                minHeight: `${minHeight}px`,
             }"
          >
-            <router-view></router-view>
+            <router-view v-slot="{ Component }">
+               <keep-alive>
+                  <page-transition>
+                     <component :is="Component" />
+                  </page-transition>
+               </keep-alive>
+            </router-view>
          </a-layout-content>
          <!-- 底部 -->
          <!-- <a-layout-footer :style="{ textAlign: 'center', padding: '48px 16px 24px' }">
@@ -41,9 +47,11 @@
 </template>
 
 <script setup lang="ts" name="homeView">
+import { getComponentName } from '@/uilts'
 import { message } from 'ant-design-vue'
 import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import pageTransition from '../components/pageTransition/index.vue'
 import MySider from '../components/sider/index.vue'
 import HeadertView from './headertView.vue'
 import { matches0, MenuItem, tabsList } from './type'
@@ -64,6 +72,11 @@ selectedKeys.value = [
  * 菜单栏和tabs栏目逻辑切换
  * (写的有些繁琐，需要修改)
  */
+// 不要缓存的页面
+let includeName = ref<string[]>([])
+// 需要缓存的页面
+let excludeName = ref<string[]>([])
+
 const tabsList = ref<tabsList[]>([])
 let activeKey = ref('') //当前tabs栏目选中
 tabsList.value = [
@@ -85,6 +98,7 @@ const changePane = (active: string) => {
 // tab栏关闭逻辑
 const tabsClose = (tabKey: string, currentActiveKey: string) => {
    if (tabsList.value.length === 1) return message.warning('已经是最后一个了')
+   getComponentName()
    tabsList.value = tabsList.value.filter(item => item.path !== tabKey)
    if (tabKey === currentActiveKey) {
       activeKey.value = tabsList.value[tabsList.value.length - 1].path
@@ -96,6 +110,7 @@ const tabsClose = (tabKey: string, currentActiveKey: string) => {
 }
 // 点击侧边栏逻辑
 const clickMenu = (menuItem: MenuItem) => {
+   getComponentName()
    if (!tabsList.value?.find(item => item.path === menuItem.key)) {
       tabsList.value?.push({
          path: menuItem.key,

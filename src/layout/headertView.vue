@@ -19,7 +19,7 @@
       >
          <a-tab-pane v-for="item in props.tabsList" :key="item.path">
             <template #tab>
-               <sync-outlined class="syncIcon" />
+               <sync-outlined class="syncIcon" v-show="item.path === activeKey" />
                <span>{{ item.title }}</span>
             </template>
 
