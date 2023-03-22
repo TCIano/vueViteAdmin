@@ -37,7 +37,6 @@ interface pretr {
 }
 
 const dirRoutes = filesToTreeNodes(allDir)
-console.log(dirRoutes);
 
 function filesToTreeNodes(arr: Array<string>) {
    var tree: tree = {}

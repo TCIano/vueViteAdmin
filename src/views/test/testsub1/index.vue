@@ -1,10 +1,25 @@
 <template>
-    testsub1
+   testsub1
+   <div style="height: 500px; width: 100px; background-color: skyblue">two</div>
+   <div style="height: 500px; width: 100px; background-color: skyblue">two</div>
 </template>
 
-<script setup lang='ts'>
-import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue';
+<script setup lang="ts">
+import {
+   ref,
+   reactive,
+   toRefs,
+   onBeforeMount,
+   onMounted,
+   watchEffect,
+   computed,
+   onActivated,
+} from 'vue'
+// console.log(789)
 
+onActivated(() => {
+   // console.log('testsub1缓存')
+})
 </script>
 
-<style scoped lang='less'></style>
+<style scoped lang="less"></style>

@@ -19,7 +19,9 @@
                      <!-- 图标 -->
                      <SettingOutlined />
                   </template>
-                  <router-link :to="item.path">{{ item.meta?.title || item.name }}</router-link>
+                  <router-link :to="item.path">
+                     {{ item.meta?.title || item.name }}
+                  </router-link>
                </a-menu-item>
             </template>
             <template v-else>
@@ -36,7 +38,17 @@ import SubMenu from '../menu/index.vue'
 import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue'
 import { MenuItem } from '../../layout/type'
 let openKeys = ref<string[]>()
-const props = defineProps(['menuList', 'collapsed', 'selectedKeys'])
+const props = defineProps({
+   menuList: {
+      type: Array,
+      default: () => [],
+   },
+   collapsed: Boolean,
+   selectedKeys: {
+      type: Array,
+      default: () => [],
+   },
+})
 const emit = defineEmits(['clickMenu'])
 // 点击菜单栏
 const onClickItemMenu = (menuItem: MenuItem) => {

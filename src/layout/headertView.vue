@@ -19,7 +19,11 @@
       >
          <a-tab-pane v-for="item in props.tabsList" :key="item.path">
             <template #tab>
-               <sync-outlined class="syncIcon" v-show="item.path === activeKey" />
+               <sync-outlined
+                  class="syncIcon"
+                  v-show="item.path === activeKey"
+                  @click="reloadRoute(item.path)"
+               />
                <span>{{ item.title }}</span>
             </template>
 
@@ -30,9 +34,8 @@
 </template>
 
 <script setup lang="ts" name="headerView">
-import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue'
 const props = defineProps(['collapsed', 'tabsList', 'activeKey'])
-const emit = defineEmits(['toggleCollapse', 'tabsClose', 'changePane'])
+const emit = defineEmits(['toggleCollapse', 'tabsClose', 'changePane', 'reloadRoute'])
 const toggleCollapse = () => {
    emit('toggleCollapse')
 }
@@ -45,6 +48,10 @@ const handelClose = (tabKey: string) => {
 //切换面板
 const onChangePane = (activeKey: string) => {
    emit('changePane', activeKey)
+}
+//点击刷新按钮
+const reloadRoute = (path: string) => {
+   emit('reloadRoute', path)
 }
 </script>
 
