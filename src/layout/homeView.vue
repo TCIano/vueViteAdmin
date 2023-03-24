@@ -22,7 +22,7 @@
             @tabsClose="tabsClose"
             @changePane="changePane"
             @reload-route="reloadRoute"
-         ></HeadertView>
+         />
          <a-layout-content
             :style="{
                margin: '40px 16px 10px',
