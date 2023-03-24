@@ -77,6 +77,52 @@ function filesToTreeNodes(arr: Array<string>) {
    objectToArr(tree)
    return Object.values(tree)
 }
+// interface TreeNode {
+//    path: string;
+//    name: string;
+//    component?: any;
+//    meta?: any;
+//    children?: TreeNode[];
+// }
+
+// function filesToTreeNodes(arr: Array<string>): TreeNode[] {
+//    const tree: TreeNode = {};
+
+//    function addNode(node: string, parent: TreeNode) {
+//       const splitPath: string[] = node.replace(/^\/|\/$/g, "").split('/');
+//       let name: string = '';
+//       let currentNode: TreeNode = parent;
+
+//       for (let i = 0; i < splitPath.length; i++) {
+//          name += '/' + splitPath[i];
+//          let newNode: TreeNode = {
+//             path: '/' + splitPath[i],
+//             name: name.split('/').filter(Boolean).join('-'),
+//             ...(i < splitPath.length - 1 ? {} : { component: importCom['../views' + name + '/index.vue'] }),
+//             meta: importPage['../views' + name + '/page.js'] || {}
+//          };
+//          currentNode.children = currentNode.children || [];
+//          let existingNode: TreeNode | undefined = currentNode.children.find((child: TreeNode) => child.path === newNode.path);
+//          if (existingNode) {
+//             currentNode = existingNode;
+//          } else {
+//             currentNode.children.push(newNode);
+//             currentNode = newNode;
+//          }
+//       }
+//    }
+
+//    function objectToArr(node: TreeNode) {
+//       if (node.children) {
+//          node.children.forEach(objectToArr);
+//          node.children = node.children.sort((a: TreeNode, b: TreeNode) => a.path.localeCompare(b.path));
+//       }
+//    }
+
+//    arr.forEach((node: string) => addNode(node, tree));
+//    objectToArr(tree);
+//    return tree.children || [];
+// }
 
 const routes: Array<RouteRecordRaw> = [
    {
