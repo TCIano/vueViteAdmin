@@ -15,8 +15,10 @@ export const useGlobalSettingStore = defineStore('global-setting', {
     },
     getters: {
         getNavMode: (state): string => {
-            console.log(state);
             return state.navMode
+        },
+        getNavTheme: (state): string => {
+            return state.navTheme
         }
     }
 }) 

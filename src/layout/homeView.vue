@@ -1,21 +1,39 @@
 <template>
    <a-layout>
-      <!-- 菜单 -->
-      <MySider
+      <a-layout-sider
          v-if="mode !== 'horizontal'"
-         :mode="mode"
-         :menuList="routes"
-         :selectedKeys="selectedKeys"
-         :collapsed="collapsed"
-         style="position: fixed; height: 100vh; left: 0; right: 0"
-         @clickMenu="clickMenu"
-      />
+         width="256px"
+         v-model:collapsed="collapsed"
+         style="overflow: auto; position: fixed; height: 100vh; top: 0; left: 0; bottom: 0"
+      >
+         <div
+            class="logo"
+            :style="{
+               '--titleBg': theme === 'light' ? '#fff' : '#001529',
+            }"
+         >
+            <img src="@/assets/image/profile(1).png" />
+            <h1 :style="{ '--titleColor': theme === 'light' ? '#001529' : '#ccc' }">后台管理</h1>
+         </div>
+         <!-- 菜单 -->
+         <MySider
+            :theme="theme"
+            :mode="mode"
+            :menuList="routes"
+            :selectedKeys="selectedKeys"
+            :collapsed="collapsed"
+            @clickMenu="clickMenu"
+         />
+      </a-layout-sider>
       <!-- 内容 -->
       <a-layout
-         class="beauty-scroll admin-layout-main"
-         :style="{ marginLeft: !collapsed ? '256px' : '80px' }"
+         :class="['beauty-scroll', 'admin-layout-main']"
+         :style="{ marginLeft: mode !== 'horizontal' ? (!collapsed ? '265px' : '80px') : '0px' }"
       >
+         <!--  -->
          <HeadertView
+            :theme="theme"
+            :mode="mode"
             class="admin-header"
             :collapsed="collapsed"
             :tabsList="tabsList"
@@ -24,13 +42,34 @@
             @tabsClose="tabsClose"
             @changePane="changePane"
             @reload-route="reloadRoute"
-         />
+         >
+            <template #sideMenu v-if="mode === 'horizontal'">
+               <!-- 页面不路由菜单 -->
+               <div class="logo">
+                  <img src="@/assets/image/profile(1).png" />
+                  <h1 :style="{ '--titleColor': theme === 'light' ? '#001529' : '#ccc' }">
+                     后台管理
+                  </h1>
+               </div>
+               <MySider
+                  v-if="mode === 'horizontal'"
+                  :theme="theme"
+                  :mode="mode"
+                  :menuList="routes"
+                  :selectedKeys="selectedKeys"
+                  :collapsed="collapsed"
+                  @clickMenu="clickMenu"
+                  style="margin-left: 10px"
+               />
+            </template>
+         </HeadertView>
          <a-layout-content
             :style="{
                margin: '40px 16px 10px',
                padding: '24px',
                background: '#fff',
-               minHeight: `${minHeight}px`,
+               height: `${maxHeight}px`,
+               minHeight: '700px',
             }"
          >
             <router-view v-if="reloadRouteAlive">
@@ -57,7 +96,7 @@ import { message } from 'ant-design-vue'
 import { ref, nextTick, unref, watch, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import pageTransition from '../components/pageTransition/index.vue'
-import MySider from '../components/sider/index.vue'
+import MySider from '@/components/sider/index.vue'
 import HeadertView from './headertView.vue'
 import { matches0, MenuItem, tabsList } from './type'
 import { useGlobalSettingStore } from '@/store/modules/globalSetting'
@@ -71,7 +110,10 @@ watch(
    }
 )
 const routes = router.options.routes[0].children
-const minHeight = ref(window.innerHeight - 64 - 50)
+const maxHeight = ref(window.innerHeight - 64 - 50)
+window.addEventListener('resize', () => {
+   maxHeight.value = window.innerHeight - 64 - 50
+})
 const collapsed = ref(false)
 const toggleCollapse = () => {
    collapsed.value = !collapsed.value
@@ -146,22 +188,37 @@ let globalSettingStore = useGlobalSettingStore()
 let mode = computed(() => {
    return globalSettingStore.getNavMode
 })
+let theme = computed(() => {
+   return globalSettingStore.getNavTheme
+})
 </script>
 
 <style scoped lang="less">
+.logo {
+   height: 64px;
+   // position: relative;
+   line-height: 64px;
+   padding-left: 15px;
+   -webkit-transition: all 0.3s;
+   transition: all 0.3s;
+   overflow: hidden;
+   background-color: var(--titleBg);
+   h1 {
+      color: var(--titleColor);
+      font-size: 20px;
+      margin: 0 0 0 40px;
+      display: inline-block;
+      vertical-align: middle;
+   }
+   img {
+      width: 46px;
+      vertical-align: middle;
+   }
+}
 .admin-layout-main {
    // padding-top: 20px;
+   margin-left: 0px;
    .admin-header {
-      // position: fixed;
-      // right: 0;
-      // left: 200px;·
-      // margin-bottom: 64px;·
-      // float: right;
-      // overflow: hidden;
-      // transition: all 0.2s;
-      // &.fixed-tabs.multi-page:not(.fixed-header) {
-      //    height: 0;
-      // }
    }
    // .zoom-fade-enter-active,
    // .zoom-fade-leave-active {

@@ -1,12 +1,28 @@
 <template>
-   <a-layout-header style="background: #fff; padding: 0">
-      <menu-unfold-outlined class="outLined" v-if="props.collapsed" @click="toggleCollapse" />
-      <menu-fold-outlined class="outLined" v-else @click="toggleCollapse" />
+   <a-layout-header
+      :style="{
+         background: props.theme == 'dark' && props.mode === 'horizontal' ? '#001529' : '#fff',
+         padding: 0,
+      }"
+   >
+      <menu-unfold-outlined
+         class="outLined"
+         v-if="props.collapsed && mode !== 'horizontal'"
+         @click="toggleCollapse"
+      />
+      <menu-fold-outlined
+         class="outLined"
+         v-else-if="mode !== 'horizontal'"
+         @click="toggleCollapse"
+      />
       <!-- 头部右边菜单 -->
       <div class="admin-header-right">
          <a-space>
             <a-button>8464</a-button>
          </a-space>
+      </div>
+      <div class="admin-header-menu">
+         <slot name="sideMenu"></slot>
       </div>
       <!-- tab栏 -->
       <a-tabs
@@ -34,8 +50,15 @@
 </template>
 
 <script setup lang="ts" name="headerView">
-const props = defineProps(['collapsed', 'tabsList', 'activeKey'])
+import { useGlobalSettingStore } from '@/store/modules/globalSetting'
+import { computed, ref } from 'vue'
+const props = defineProps(['collapsed', 'tabsList', 'activeKey', 'theme', 'mode'])
 const emit = defineEmits(['toggleCollapse', 'tabsClose', 'changePane', 'reloadRoute'])
+//设置菜单类型
+let globalSettingStore = useGlobalSettingStore()
+let mode = computed(() => {
+   return globalSettingStore.getNavMode
+})
 const toggleCollapse = () => {
    emit('toggleCollapse')
 }
@@ -63,6 +86,9 @@ const reloadRoute = (path: string) => {
    &:hover {
       color: #3498db;
    }
+}
+.admin-header-menu {
+   display: flex;
 }
 .admin-header-right {
    float: right;
