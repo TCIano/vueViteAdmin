@@ -1,10 +1,9 @@
 <template>
-  <router-view />
+   <router-view />
 </template>
 
-<script setup lang='ts'>
-import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue';
-
+<script setup lang="ts">
+import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue'
 </script>
 
-<style scoped lang='less'></style>
+<style scoped lang="less"></style>

@@ -11,7 +11,6 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Menu: typeof import('./src/components/menu/index.vue')['default']
     PageTransition: typeof import('./src/components/pageTransition/index.vue')['default']
-    Reload: typeof import('./src/components/reload/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Sider: typeof import('./src/components/sider/index.vue')['default']

@@ -1,5 +1,5 @@
 <template>
-   <a-layout-sider mode="inline" width="256px" v-model:collapsed="props.collapsed">
+   <a-layout-sider width="256px" v-model:collapsed="props.collapsed">
       <div class="logo">
          <img src="@/assets/image/profile(1).png" />
          <h1>后台管理</h1>
@@ -7,7 +7,7 @@
       <a-menu
          id="menu"
          theme="dark"
-         mode="inline"
+         :mode="props.mode"
          v-model:openKeys="openKeys"
          :selectedKeys="selectedKeys"
          @click="onClickItemMenu"
@@ -34,11 +34,16 @@
 </template>
 
 <script setup lang="ts" name="MySider">
-import SubMenu from '../menu/index.vue'
+import SubMenu from '@/components/menu/index.vue'
 import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue'
 import { MenuItem } from '../../layout/type'
+
 let openKeys = ref<string[]>()
 const props = defineProps({
+   mode: {
+      type: String,
+      default: 'inline',
+   },
    menuList: {
       type: Array,
       default: () => [],
@@ -49,6 +54,8 @@ const props = defineProps({
       default: () => [],
    },
 })
+console.log(props.mode)
+
 const emit = defineEmits(['clickMenu'])
 // 点击菜单栏
 const onClickItemMenu = (menuItem: MenuItem) => {

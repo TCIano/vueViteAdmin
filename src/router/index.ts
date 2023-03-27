@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import homeView from '../layout/homeView.vue'
+import homeView from '@/layout/homeView.vue'
 
 declare module 'vue-router' {
    interface RouteMeta {

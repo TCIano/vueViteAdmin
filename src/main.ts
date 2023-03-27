@@ -12,9 +12,9 @@ import { store } from './store';
 //路由守卫 
 // import '@/router/router-guards'
 const app = createApp(App)
+app.use(store)
 app.use(Antd)
 app.use(router)
-app.use(store)
 app.mount('#app')
 
 for (const key in Icon) {

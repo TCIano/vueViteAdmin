@@ -2,6 +2,8 @@
    <a-layout>
       <!-- 菜单 -->
       <MySider
+         v-if="mode !== 'horizontal'"
+         :mode="mode"
          :menuList="routes"
          :selectedKeys="selectedKeys"
          :collapsed="collapsed"
@@ -52,12 +54,14 @@
 
 <script setup lang="ts" name="homeView">
 import { message } from 'ant-design-vue'
-import { ref, nextTick, unref, watch } from 'vue'
+import { ref, nextTick, unref, watch, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import pageTransition from '../components/pageTransition/index.vue'
 import MySider from '../components/sider/index.vue'
 import HeadertView from './headertView.vue'
 import { matches0, MenuItem, tabsList } from './type'
+import { useGlobalSettingStore } from '@/store/modules/globalSetting'
+
 const router = useRouter()
 watch(
    () => unref(router.currentRoute.value),
@@ -137,6 +141,11 @@ const reloadRoute = (path: string) => {
       reloadRouteAlive.value = true
    })
 }
+//设置菜单类型
+let globalSettingStore = useGlobalSettingStore()
+let mode = computed(() => {
+   return globalSettingStore.getNavMode
+})
 </script>
 
 <style scoped lang="less">
