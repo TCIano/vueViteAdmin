@@ -28,7 +28,7 @@
       <!-- 内容 -->
       <a-layout
          :class="['beauty-scroll', 'admin-layout-main']"
-         :style="{ marginLeft: mode !== 'horizontal' ? (!collapsed ? '265px' : '80px') : '0px' }"
+         :style="{ marginLeft: mode !== 'horizontal' ? (!collapsed ? '256px' : '80px') : '0px' }"
       >
          <!--  -->
          <HeadertView
@@ -68,8 +68,7 @@
                margin: '40px 16px 10px',
                padding: '24px',
                background: '#fff',
-               height: `${maxHeight}px`,
-               minHeight: '700px',
+               minHeight: `${minHeight}px`,
             }"
          >
             <router-view v-if="reloadRouteAlive">
@@ -110,10 +109,10 @@ watch(
    }
 )
 const routes = router.options.routes[0].children
-const maxHeight = ref(window.innerHeight - 64 - 50)
-window.addEventListener('resize', () => {
-   maxHeight.value = window.innerHeight - 64 - 50
-})
+const minHeight = ref(window.innerHeight - 64 - 50)
+// window.addEventListener('resize', () => {
+//    minHeight.value = window.innerHeight - 64 - 50
+// })
 const collapsed = ref(false)
 const toggleCollapse = () => {
    collapsed.value = !collapsed.value

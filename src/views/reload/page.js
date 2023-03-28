@@ -1,3 +1,4 @@
 export default {
-    hidden: true
+    hidden: true,
+    sort: 3
 }

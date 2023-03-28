@@ -43,4 +43,9 @@ If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has a
 
    -  里面配置菜单的标题等：`export default {title:'\*\*\*'}`。
 
+-  菜单排序
+
+   -  可在文件中的 page.js 中配置`sort`进行升序排序。
+   -  `注意:`当未配置`sort`时，默认排序为 0 ，因此会出现在菜单最前面（并且按照文件顺序排序）。
+
 2.如果此路是类似传参路由且不想展示在菜单栏时，可以在 page.js 中增加增加 `hidden：true`

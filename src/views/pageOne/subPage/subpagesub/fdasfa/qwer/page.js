@@ -1,3 +1,4 @@
 export default {
-    title: 'qwer'
+    title: 'qwer',
+    sort: 7
 }
