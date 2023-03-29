@@ -5,7 +5,7 @@ import './style/index.less'
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 //引入图标库
-import * as Icon from '@ant-design/icons-vue'
+import * as Icons from '@ant-design/icons-vue'
 import App from './App.vue'
 import router from './router'
 import { store } from './store';
@@ -16,7 +16,7 @@ app.use(store)
 app.use(Antd)
 app.use(router)
 app.mount('#app')
-
+const Icon: any = Icons
 for (const key in Icon) {
     app.component(key, Icon[key])
 }

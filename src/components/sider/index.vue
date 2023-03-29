@@ -8,7 +8,7 @@
       @click="onClickItemMenu"
    >
       <template v-for="item in props.menuList" :key="item.name">
-         <template v-if="!item.children">
+         <template v-if="!item?.children">
             <a-menu-item :key="item.path" :title="item.meta?.title" v-if="!item.meta.hidden">
                <template #icon>
                   <!-- 图标 -->
@@ -31,7 +31,7 @@
 import SubMenu from '@/components/menu/index.vue'
 import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue'
 import { MenuItem } from '../../layout/type'
-
+import { TreeNode } from './type'
 let openKeys = ref<string[]>()
 const props = defineProps({
    mode: {
@@ -43,7 +43,7 @@ const props = defineProps({
       default: 'dark',
    },
    menuList: {
-      type: Array,
+      type: Array<any>,
       default: () => [],
    },
    collapsed: Boolean,
@@ -52,6 +52,7 @@ const props = defineProps({
       default: () => [],
    },
 })
+console.log(props.menuList)
 
 const emit = defineEmits(['clickMenu'])
 // 点击菜单栏

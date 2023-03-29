@@ -1,6 +1,6 @@
 <template>
    <transition name="zoom-fade" mode="in-out" appear>
-      <div>
+      <div style="height: 100%">
          <slot></slot>
       </div>
    </transition>

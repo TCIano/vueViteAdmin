@@ -30,20 +30,11 @@
 </template>
 
 <script setup lang="ts" name="SubMenu">
+import { TreeNode } from '../sider/type'
 import SubMenu from './index.vue'
-interface Meta {
-   title: string
-   parentMenu?: boolean
-}
-interface MenuInfo {
-   path: string
-   meta: Meta
-   name: string
-   children?: MenuInfo[]
-   component: any
-}
+
 const props = defineProps<{
-   menuInfo: MenuInfo
+   menuInfo: TreeNode
 }>()
 </script>
 

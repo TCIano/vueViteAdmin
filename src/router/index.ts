@@ -36,8 +36,7 @@ interface pretr {
    [key: string]: string | any,
 }
 
-const dirRoutes = filesToTreeNodes(allDir)
-console.log(dirRoutes);
+const dirRoutes: Array<TreeNode | any> = filesToTreeNodes(allDir)
 
 // function filesToTreeNodes(arr: Array<string>) {
 //    var tree: tree = {}
@@ -87,7 +86,7 @@ interface TreeNode {
 }
 
 function filesToTreeNodes(arr: Array<string>): TreeNode[] {
-   const tree: TreeNode = {};
+   const tree: TreeNode | any = {};
 
    function addNode(node: string, parent: TreeNode) {
       const splitPath: string[] = node.replace(/^\/|\/$/g, "").split('/');
