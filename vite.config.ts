@@ -6,9 +6,10 @@ import vueSetupExtend from 'vite-plugin-vue-setup-extend'
 // https://vitejs.dev/config/
 export default ({ mode }) => {
   console.log(mode);
+
   return defineConfig({
     // base: '',
-    base: mode === 'development' ? '' : './',
+    base: mode === 'development' ? '' : '/vueViteAdmin/',
     server: {
       open: true
     },
