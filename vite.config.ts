@@ -1,15 +1,14 @@
-import { defineConfig, } from 'vite'
+import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import Components from 'unplugin-vue-components/vite'
 import vueSetupExtend from 'vite-plugin-vue-setup-extend'
 // https://vitejs.dev/config/
 export default ({ mode }) => {
-  const dev = mode === 'development'
-  console.log(dev);
-
+  console.log(mode);
   return defineConfig({
-    base: dev ? '/' : '/vueViteAdmin/',
+    // base: '',
+    // base: mode === 'development' ? '' : './vueViteAdmin/',
     server: {
       open: true
     },
