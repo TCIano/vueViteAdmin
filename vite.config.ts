@@ -5,6 +5,7 @@ import Components from 'unplugin-vue-components/vite'
 import vueSetupExtend from 'vite-plugin-vue-setup-extend'
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: './',
   server: {
     open: true
   },
