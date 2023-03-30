@@ -150,7 +150,7 @@ const routes: Array<RouteRecordRaw> = [
 const isProd = import.meta.env.MODE === 'production'
 
 const router = createRouter({
-   history: createWebHistory(isProd ? '/vueViteAdmin' : ''),
+   history: createWebHistory(isProd ? '/vueViteAdmin' : ''),//vueViteAdmin为githubPages指定地址
    routes,
 })
 
