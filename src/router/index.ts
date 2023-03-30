@@ -147,9 +147,10 @@ const routes: Array<RouteRecordRaw> = [
       children: dirRoutes,
    },
 ]
+const isProd = import.meta.env.MODE === 'production'
 
 const router = createRouter({
-   history: createWebHistory(),
+   history: createWebHistory(isProd ? '/vueViteAdmin' : ''),
    routes,
 })
 

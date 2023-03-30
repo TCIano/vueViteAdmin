@@ -8,7 +8,7 @@ export default ({ mode }) => {
   console.log(mode);
   return defineConfig({
     // base: '',
-    base: mode === 'development' ? '' : '/vueViteAdmin/',
+    // base: mode === 'development' ? '' : '/vueViteAdmin/',
     server: {
       open: true
     },
