@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw, createWebHashHistory } from 'vue-router'
 import homeView from '@/layout/homeView.vue'
 
 declare module 'vue-router' {
@@ -147,10 +147,12 @@ const routes: Array<RouteRecordRaw> = [
       children: dirRoutes,
    },
 ]
-const isProd = import.meta.env.MODE === 'production'
+console.log(import.meta.env.BASE_URL);
 
+const isProd = import.meta.env.MODE === 'production'
+// isProd ? '/vueViteAdmin' : ''
 const router = createRouter({
-   history: createWebHistory(),//vueViteAdmin为githubPages指定地址
+   history: createWebHashHistory(isProd ? '/vueViteAdmin' : ''),//vueViteAdmin 的githubpages的指定地址
    routes,
 })
 
