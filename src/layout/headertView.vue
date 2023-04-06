@@ -51,7 +51,7 @@
 
 <script setup lang="ts" name="headerView">
 import { useGlobalSettingStore } from '@/store/modules/globalSetting'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 const props = defineProps(['collapsed', 'tabsList', 'activeKey', 'theme', 'mode'])
 const emit = defineEmits(['toggleCollapse', 'tabsClose', 'changePane', 'reloadRoute'])
 //设置菜单类型
@@ -76,6 +76,8 @@ const onChangePane = (activeKey: string) => {
 const reloadRoute = (path: string) => {
    emit('reloadRoute', path)
 }
+
+//监听路由变化
 </script>
 
 <style scoped lang="less">
@@ -97,9 +99,12 @@ const reloadRoute = (path: string) => {
    display: flex;
    justify-content: flex-end;
 }
-.syncIcon {
-   &:hover {
-      color: #56a6f0;
+.ant-tabs-tab {
+   .syncIcon {
+      &:hover {
+         // font-size: 15px;
+         color: #4a81b4;
+      }
    }
 }
 </style>

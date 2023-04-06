@@ -8,9 +8,11 @@ const ifUrl = ref('http://127.0.0.1:5173/testsub1')
 // http://localhost:8081
 const iframe = ref<HTMLIFrameElement>()
 const ifHeight = ref(0)
+console.log(window.self === window.top)
+
 onMounted(() => {
    ifHeight.value = iframe.value!.parentElement!.clientHeight
-   console.log(ifHeight.value)
+   // console.log(ifHeight.value)
 })
 </script>
 <style scoped lang="less"></style>

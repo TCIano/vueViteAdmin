@@ -19,6 +19,8 @@
          <MySider
             :theme="theme"
             :mode="mode"
+            @openSide="openSide"
+            :openKeys="openKeys"
             :menuList="routes"
             :selectedKeys="selectedKeys"
             :collapsed="collapsed"
@@ -55,6 +57,7 @@
                   v-if="mode === 'horizontal'"
                   :theme="theme"
                   :mode="mode"
+                  :openKeys="openKeys"
                   :menuList="routes"
                   :selectedKeys="selectedKeys"
                   :collapsed="collapsed"
@@ -71,15 +74,13 @@
                minHeight: `${minHeight}px`,
             }"
          >
-            <router-view v-if="reloadRouteAlive">
-               <template #default="{ Component, route }">
-                  <page-transition>
-                     <keep-alive v-if="keepAliveComponets" :exclude="keepAliveComponets">
-                        <component :is="Component" />
-                     </keep-alive>
-                     <component v-else :is="Component" />
-                  </page-transition>
-               </template>
+            <router-view v-if="reloadRouteAlive" v-slot="{ Component }">
+               <page-transition>
+                  <keep-alive v-if="keepAliveComponets" :include="keepAliveComponets">
+                     <component :is="Component" />
+                  </keep-alive>
+                  <component v-else :is="Component" />
+               </page-transition>
             </router-view>
          </a-layout-content>
          <!-- 底部 -->
@@ -92,20 +93,38 @@
 
 <script setup lang="ts" name="homeView">
 import { message } from 'ant-design-vue'
-import { ref, nextTick, unref, watch, computed } from 'vue'
+import { ref, nextTick, unref, watch, computed, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import pageTransition from '../components/pageTransition/index.vue'
 import MySider from '@/components/sider/index.vue'
 import HeadertView from './headertView.vue'
 import { matches0, MenuItem, tabsList } from './type'
 import { useGlobalSettingStore } from '@/store/modules/globalSetting'
-
+import { useTabsStore } from '@/store/modules/tabs'
+let openKeys = ref<string[]>([]) //展开的菜单
+let activeKey = ref('') //当前tabs栏目选中
+// 菜单的默认选择
+let selectedKeys = ref<string[]>(['']) //默认选择第一个
+let tabsStore = useTabsStore()
 const router = useRouter()
+window.addEventListener('load', () => {
+   // selectedKeys.value = [...router.currentRoute.value.fullPath]
+   activeKey.value = router.currentRoute.value.fullPath
+})
+window.removeEventListener('load', e => {
+   console.log('移除')
+})
 watch(
    () => unref(router.currentRoute.value),
    val => {
+      //路由缓存
+      tabsStore.setActiveKey(val.fullPath)
+      tabsStore.addCacheView(val)
       //监听路由的回退和前进，实现切换菜单和tabs
       clickMenu({ key: val.path, item: { title: val.meta.title } })
+      console.log(val)
+
+      // openSide([])
    }
 )
 const routes = router.options.routes[0].children
@@ -117,29 +136,42 @@ const collapsed = ref(false)
 const toggleCollapse = () => {
    collapsed.value = !collapsed.value
 }
-// 菜单的默认选择
-let selectedKeys = ref<string[]>(['']) //默认选择第一个
+
 let matches: Array<any> = useRoute().matched
-selectedKeys.value = [
-   matches[0].children.find((item: matches0) => item.path === matches[0].redirect).path,
-]
+// // selectedKeys.value = [
+// //    matches[0].children.find((item: matches0) => item.path === matches[0].redirect).path,
+// // ]
+selectedKeys.value = [tabsStore.getActiveKey]
 /**
  * 菜单栏和tabs栏目逻辑切换
  * (写的有些繁琐，需要修改)
  */
 // 要缓存的页面
-let keepAliveComponets = ref<string[]>([''])
+let keepAliveComponets = computed(() => {
+   return (
+      tabsStore.cacheList
+         .filter(item => !Reflect.has(item.meta, 'notkeepAlive')) //把不缓存的页面过滤掉
+         .map(route => route.name) || ['']
+   )
+})
 
 const tabsList = ref<tabsList[]>([])
-let activeKey = ref('') //当前tabs栏目选中
-tabsList.value = [
-   {
-      title: matches[0].children.find((item: matches0) => item.path === matches[0].redirect).meta
-         .title,
-      path: selectedKeys.value[0],
-   },
-]
-activeKey.value = tabsList.value[0].path
+tabsList.value =
+   tabsStore.cacheList.length > 0
+      ? tabsStore.cacheList.map(item => {
+           return {
+              title: item.meta.title,
+              path: item.fullPath,
+           }
+        })
+      : [
+           {
+              title: matches[0].children.find((item: matches0) => item.path === matches[0].redirect)
+                 .meta.title,
+              path: selectedKeys.value[0],
+           },
+        ]
+// activeKey.value = tabsList.value[0].path
 //tabs切换
 const changePane = (active: string) => {
    activeKey.value = active
@@ -162,6 +194,7 @@ const tabsClose = (tabKey: string, currentActiveKey: string) => {
 }
 // 点击侧边栏逻辑
 const clickMenu = (menuItem: any) => {
+   console.log(keepAliveComponets)
    // await router.push({ path: menuItem.key })
    if (!tabsList.value?.find(item => item.path === menuItem.key)) {
       tabsList.value?.push({
@@ -171,6 +204,11 @@ const clickMenu = (menuItem: any) => {
    }
    selectedKeys.value = [menuItem.key]
    activeKey.value = menuItem.key
+}
+//侧边栏展开
+const openSide = (openKey: string[]) => {
+   // openKeys.value = [openKey[openKey.length - 1]] //每次只开一个
+   openKeys.value = openKey
 }
 //刷新当前路由
 let reloadRouteAlive = ref(true)

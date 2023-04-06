@@ -7,8 +7,8 @@ import 'ant-design-vue/dist/antd.css';
 //引入图标库
 import * as Icons from '@ant-design/icons-vue'
 import App from './App.vue'
-import router from './router'
 import { store } from './store';
+import router from './router'
 //路由守卫 
 // import '@/router/router-guards'
 const app = createApp(App)

@@ -3,8 +3,9 @@
       id="menu"
       :theme="props.theme"
       :mode="props.mode"
-      v-model:openKeys="openKeys"
+      :openKeys="openKeys"
       :selectedKeys="selectedKeys"
+      @openChange="onOpenChange"
       @click="onClickItemMenu"
    >
       <template v-for="item in props.menuList" :key="item.name">
@@ -32,7 +33,7 @@ import SubMenu from '@/components/menu/index.vue'
 import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue'
 import { MenuItem } from '../../layout/type'
 import { TreeNode } from './type'
-let openKeys = ref<string[]>()
+
 const props = defineProps({
    mode: {
       type: String,
@@ -51,14 +52,21 @@ const props = defineProps({
       type: Array,
       default: () => [],
    },
+   openKeys: {
+      type: Array,
+      default: () => [],
+   },
 })
 console.log(props.menuList)
-
-const emit = defineEmits(['clickMenu'])
+const emit = defineEmits(['clickMenu', 'openSide'])
 // 点击菜单栏
 const onClickItemMenu = (menuItem: MenuItem) => {
    console.log(menuItem)
    emit('clickMenu', menuItem)
+}
+//展开
+const onOpenChange = (openKeys: string[]) => {
+   emit('openSide', openKeys)
 }
 </script>
 

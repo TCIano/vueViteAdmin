@@ -1,6 +1,6 @@
 <template>
    <!-- 先把父节点拿出来，然后对字节进行遍历 -->
-   <a-sub-menu :title="menuInfo.meta.title || menuInfo.name" :key="menuInfo.name">
+   <a-sub-menu :title="menuInfo.meta.title || menuInfo.name" :key="menuInfo.path">
       <template #icon>
          <!-- 图标 -->
          <SettingOutlined />

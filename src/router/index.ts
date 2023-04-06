@@ -1,10 +1,16 @@
-import { createRouter, createWebHistory, RouteRecordRaw, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw, createWebHashHistory, RouteMeta } from 'vue-router'
 import homeView from '@/layout/homeView.vue'
+import { store } from '@/store'
+import { useTabsStore } from '@/store/modules/tabs'
+let tabsStore = useTabsStore(store)
+console.log(tabsStore.getActiveKey);
 
 declare module 'vue-router' {
    interface RouteMeta {
       title: string,
-      hidden?: boolean
+      hidden?: boolean,
+      sort?: number,
+      keepAlive?: boolean
    }
 }
 
@@ -95,9 +101,10 @@ function filesToTreeNodes(arr: Array<string>): TreeNode[] {
 
       for (let i = 0; i < splitPath.length; i++) {
          name += '/' + splitPath[i];
+         let nameList = name.split('/')
          let newNode: TreeNode = {
-            path: '/' + splitPath[i],
-            name: name.split('/').filter(Boolean).join('-'),
+            path: name,
+            name: nameList[nameList.length - 1],
             ...(i < splitPath.length - 1 ? {} : { component: importCom['../views' + name + '/index.vue'] }),
             meta: importPage['../views' + name + '/page.js'] || {}
          };
@@ -137,7 +144,6 @@ function filesToTreeNodes(arr: Array<string>): TreeNode[] {
    objectToArr(tree);
    return tree.children || [];
 }
-
 const routes: Array<RouteRecordRaw> = [
    {
       path: '/',
@@ -152,6 +158,7 @@ console.log(import.meta.env.BASE_URL);
 const isProd = import.meta.env.MODE === 'production'
 // isProd ? '/vueViteAdmin' : ''
 const router = createRouter({
+   //使用hash模式防止线上出现404
    history: createWebHashHistory(isProd ? '/vueViteAdmin' : ''),//vueViteAdmin 的githubpages的指定地址
    routes,
 })

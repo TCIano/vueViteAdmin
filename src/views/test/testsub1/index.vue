@@ -4,7 +4,7 @@
    <div style="height: 500px; width: 100px; background-color: skyblue">two</div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="TestSub1">
 import {
    ref,
    reactive,
@@ -18,7 +18,7 @@ import {
 // console.log(789)
 
 onActivated(() => {
-   // console.log('testsub1缓存')
+   console.log('testsub1缓存')
 })
 </script>
 

@@ -9,6 +9,7 @@ import { useGlobalSettingStore } from '@/store/modules/globalSetting'
 import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue'
 const store = useGlobalSettingStore()
 console.log(store.navMode)
+console.log(window.self === window.top)
 </script>
 
 <style scoped lang="less"></style>
