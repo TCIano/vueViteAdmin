@@ -57,14 +57,12 @@ const props = defineProps({
       default: () => [],
    },
 })
-console.log(props.menuList)
 const emit = defineEmits(['clickMenu', 'openSide'])
 // 点击菜单栏
 const onClickItemMenu = (menuItem: MenuItem) => {
-   console.log(menuItem)
    emit('clickMenu', menuItem)
 }
-//展开
+//展开菜单
 const onOpenChange = (openKeys: string[]) => {
    emit('openSide', openKeys)
 }

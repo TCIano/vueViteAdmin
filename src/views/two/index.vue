@@ -1,10 +1,7 @@
 <template>
    <div style="height: 500px; width: 100px; background-color: skyblue">two</div>
-   <div style="height: 500px; width: 100px; background-color: skyblue">two</div>
-   <div style="height: 500px; width: 100px; background-color: skyblue">two</div>
-   <div style="height: 500px; width: 100px; background-color: skyblue">two</div>
-   <!-- <div style="height: 500px; width: 100px; background-color: skyblue">two</div> -->
    <a-button>123</a-button>
+   <a-input></a-input>
 </template>
 
 <script setup lang="ts" name="two">

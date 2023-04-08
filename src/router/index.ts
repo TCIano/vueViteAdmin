@@ -3,7 +3,6 @@ import homeView from '@/layout/homeView.vue'
 import { store } from '@/store'
 import { useTabsStore } from '@/store/modules/tabs'
 let tabsStore = useTabsStore(store)
-console.log(tabsStore.getActiveKey);
 
 declare module 'vue-router' {
    interface RouteMeta {
@@ -153,7 +152,7 @@ const routes: Array<RouteRecordRaw> = [
       children: dirRoutes,
    },
 ]
-console.log(import.meta.env.BASE_URL);
+// console.log(import.meta.env.BASE_URL);
 
 const isProd = import.meta.env.MODE === 'production'
 // isProd ? '/vueViteAdmin' : ''

@@ -5,10 +5,7 @@ import Components from 'unplugin-vue-components/vite'
 import vueSetupExtend from 'vite-plugin-vue-setup-extend'
 // https://vitejs.dev/config/
 export default ({ mode }) => {
-  console.log(mode);
   const env = loadEnv(mode, process.cwd())
-  console.log(env);
-
   return defineConfig({
     // base: env.VITE_BASE_URL,
     // base: '/vueViteAdmin',

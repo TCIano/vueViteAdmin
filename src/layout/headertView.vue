@@ -51,9 +51,10 @@
 
 <script setup lang="ts" name="headerView">
 import { useGlobalSettingStore } from '@/store/modules/globalSetting'
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, unref } from 'vue'
 const props = defineProps(['collapsed', 'tabsList', 'activeKey', 'theme', 'mode'])
 const emit = defineEmits(['toggleCollapse', 'tabsClose', 'changePane', 'reloadRoute'])
+
 //设置菜单类型
 let globalSettingStore = useGlobalSettingStore()
 let mode = computed(() => {
@@ -66,7 +67,7 @@ const toggleCollapse = () => {
 
 // 关闭tabs栏按钮
 const handelClose = (tabKey: string) => {
-   emit('tabsClose', tabKey, props.activeKey)
+   emit('tabsClose', tabKey)
 }
 //切换面板
 const onChangePane = (activeKey: string) => {

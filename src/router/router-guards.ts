@@ -1,6 +1,4 @@
 import router from './index'
-
-// router.afterEach((to, form) => {
-//     // console.log(to, form);
-//     // return false
-// })
+import { store } from '@/store'
+import { useTabsStore } from '@/store/modules/tabs'
+const tabsStore = useTabsStore(store)

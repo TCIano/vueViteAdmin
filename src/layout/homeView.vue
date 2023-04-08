@@ -93,7 +93,7 @@
 
 <script setup lang="ts" name="homeView">
 import { message } from 'ant-design-vue'
-import { ref, nextTick, unref, watch, computed, onUnmounted } from 'vue'
+import { ref, nextTick, unref, watch, computed, onUnmounted, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import pageTransition from '../components/pageTransition/index.vue'
 import MySider from '@/components/sider/index.vue'
@@ -101,47 +101,57 @@ import HeadertView from './headertView.vue'
 import { matches0, MenuItem, tabsList } from './type'
 import { useGlobalSettingStore } from '@/store/modules/globalSetting'
 import { useTabsStore } from '@/store/modules/tabs'
+import { route } from '@/store/type'
+const SYSTEM_TABS_STORE = 'system-tabs'
 let openKeys = ref<string[]>([]) //展开的菜单
 let activeKey = ref('') //当前tabs栏目选中
 // 菜单的默认选择
 let selectedKeys = ref<string[]>(['']) //默认选择第一个
 let tabsStore = useTabsStore()
 const router = useRouter()
-window.addEventListener('load', () => {
-   // selectedKeys.value = [...router.currentRoute.value.fullPath]
-   activeKey.value = router.currentRoute.value.fullPath
-})
-window.removeEventListener('load', e => {
-   console.log('移除')
-})
+const route = useRoute()
+//设置激活的当前tab
+const setActiveKey = () => {
+   activeKey.value = route.path
+}
+//添加tabs
+const addTab = () => {
+   const { fullPath, name, meta, params, query, hash, path } = route
+   tabsStore.addCacheView({
+      fullPath,
+      name,
+      meta,
+      params,
+      query,
+      hash,
+      path,
+   })
+}
 watch(
-   () => unref(router.currentRoute.value),
-   val => {
-      //路由缓存
-      tabsStore.setActiveKey(val.fullPath)
-      tabsStore.addCacheView(val)
-      //监听路由的回退和前进，实现切换菜单和tabs
-      clickMenu({ key: val.path, item: { title: val.meta.title } })
-      console.log(val)
-
+   () => router.currentRoute.value,
+   () => {
+      setActiveKey()
+      addTab()
       // openSide([])
    }
 )
+onMounted(() => {
+   refreshTabs() //刷新之后重新拿到tabs
+   setActiveKey()
+   addTab()
+   window.addEventListener('beforeunload', () => {})
+})
 const routes = router.options.routes[0].children
 const minHeight = ref(window.innerHeight - 64 - 50)
-// window.addEventListener('resize', () => {
-//    minHeight.value = window.innerHeight - 64 - 50
-// })
+
 const collapsed = ref(false)
 const toggleCollapse = () => {
    collapsed.value = !collapsed.value
 }
 
-let matches: Array<any> = useRoute().matched
-// // selectedKeys.value = [
-// //    matches[0].children.find((item: matches0) => item.path === matches[0].redirect).path,
-// // ]
-selectedKeys.value = [tabsStore.getActiveKey]
+selectedKeys.value = tabsStore.getActiveKey
+   ? [tabsStore.getActiveKey]
+   : [router.currentRoute.value.fullPath]
 /**
  * 菜单栏和tabs栏目逻辑切换
  * (写的有些繁琐，需要修改)
@@ -155,10 +165,10 @@ let keepAliveComponets = computed(() => {
    )
 })
 
-const tabsList = ref<tabsList[]>([])
-tabsList.value =
-   tabsStore.cacheList.length > 0
-      ? tabsStore.cacheList.map(item => {
+const tabsList = computed(() => {
+   console.log('变化', tabsStore.getCacheView)
+   return tabsStore.getCacheView.length > 0
+      ? tabsStore.getCacheView.map(item => {
            return {
               title: item.meta.title,
               path: item.fullPath,
@@ -166,11 +176,11 @@ tabsList.value =
         })
       : [
            {
-              title: matches[0].children.find((item: matches0) => item.path === matches[0].redirect)
-                 .meta.title,
+              title: router.currentRoute.value.meta.title,
               path: selectedKeys.value[0],
            },
         ]
+})
 // activeKey.value = tabsList.value[0].path
 //tabs切换
 const changePane = (active: string) => {
@@ -178,30 +188,42 @@ const changePane = (active: string) => {
    router.push({
       path: active,
    })
-   selectedKeys.value = [active]
+   // selectedKeys.value = [active]
 }
 // tab栏关闭逻辑
-const tabsClose = (tabKey: string, currentActiveKey: string) => {
+const tabsClose = (tabKey: string) => {
    if (tabsList.value.length === 1) return message.warning('已经是最后一个了')
-   tabsList.value = tabsList.value.filter(item => item.path !== tabKey)
-   if (tabKey === currentActiveKey) {
+   //移除缓存
+   tabsStore.removeCacheView(tabKey)
+   if (tabKey === activeKey.value) {
       activeKey.value = tabsList.value[tabsList.value.length - 1].path
+      console.log(tabsList.value, activeKey.value)
       selectedKeys.value = [activeKey.value]
       router.push({
          path: activeKey.value,
       })
    }
 }
+//页面刷新tabs
+const refreshTabs = () => {
+   window.addEventListener('beforeunload', () => {
+      sessionStorage.setItem(SYSTEM_TABS_STORE, JSON.stringify(tabsStore.getCacheView))
+   })
+   let sessionTabs = sessionStorage.getItem(SYSTEM_TABS_STORE)
+   if (sessionTabs) {
+      let oldTabs = JSON.parse(sessionTabs)
+      oldTabs && tabsStore.resetCacheView(oldTabs)
+   }
+}
 // 点击侧边栏逻辑
 const clickMenu = (menuItem: any) => {
-   console.log(keepAliveComponets)
-   // await router.push({ path: menuItem.key })
    if (!tabsList.value?.find(item => item.path === menuItem.key)) {
       tabsList.value?.push({
          path: menuItem.key,
          title: menuItem.item.title,
       })
    }
+
    selectedKeys.value = [menuItem.key]
    activeKey.value = menuItem.key
 }

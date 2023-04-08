@@ -4,7 +4,7 @@
    <div style="height: 500px; width: 100px; background-color: skyblue">two</div>
 </template>
 
-<script setup lang="ts" name="TestSub1">
+<script setup lang="ts" name="testSub1">
 import {
    ref,
    reactive,
