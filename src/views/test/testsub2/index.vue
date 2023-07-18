@@ -1,10 +1,23 @@
 <template>
-    testsub2
+   <a-card hoverable>
+      <template #actions>
+         <setting-outlined key="setting" />
+         <edit-outlined key="edit" />
+         <ellipsis-outlined key="ellipsis" />
+         <!-- <span>在线</span> -->
+         <!-- <span>性能评估</span> -->
+         <!-- <span>更多操作</span> -->
+      </template>
+      <a-card-meta title="Card title" description="This is the description">
+         <template #avatar>
+            <a-avatar src="https://joeschmoe.io/api/v1/random" />
+         </template>
+      </a-card-meta>
+   </a-card>
 </template>
 
-<script setup lang='ts'>
-import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue';
-
+<script setup lang="ts">
+import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue'
 </script>
 
-<style scoped lang='less'></style>
+<style scoped lang="less"></style>

@@ -23,6 +23,7 @@ const importPage: importPage = import.meta.glob('../views/**/page.js', {
    import: 'default'
 })
 
+
 const importCom = import.meta.glob('../views/**/index.vue')
 let importAll = import.meta.glob('../views/**/index.vue')
 let allDir = Object.keys(importAll).map(item => {
@@ -92,7 +93,6 @@ interface TreeNode {
 
 function filesToTreeNodes(arr: Array<string>): TreeNode[] {
    const tree: TreeNode | any = {};
-
    function addNode(node: string, parent: TreeNode) {
       const splitPath: string[] = node.replace(/^\/|\/$/g, "").split('/');
       let name: string = '';

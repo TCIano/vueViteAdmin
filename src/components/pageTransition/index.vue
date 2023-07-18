@@ -13,7 +13,7 @@
 import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue'
 </script>
 
-<style scoped lang="less">
+<style lang="less">
 .zoom-out-enter-active,
 .zoom-out-leave-active {
    transition: opacity 0.1 ease-in-out, transform 0.15s ease-out;
@@ -34,10 +34,10 @@ import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed 
    opacity: 0;
    transform: scale(0.92);
 }
-// .zoom-fade-enter-to {
-//    opacity: 1;
-//    transform: scale(1);
-// }
+.zoom-fade-enter-to {
+   opacity: 1;
+   transform: scale(1);
+}
 
 .zoom-fade-leave-to {
    opacity: 0;

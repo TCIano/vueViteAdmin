@@ -139,7 +139,6 @@ onMounted(() => {
    refreshTabs() //刷新之后重新拿到tabs
    setActiveKey()
    addTab()
-   window.addEventListener('beforeunload', () => {})
 })
 const routes = router.options.routes[0].children
 const minHeight = ref(window.innerHeight - 64 - 50)
@@ -158,8 +157,14 @@ selectedKeys.value = tabsStore.getActiveKey
  */
 // 要缓存的页面
 let keepAliveComponets = computed(() => {
+   console.log(
+      tabsStore.getCacheView
+         .filter(item => !Reflect.has(item.meta, 'notkeepAlive')) //把不缓存的页面过滤掉
+         .map(route => route.name) || ['']
+   )
+
    return (
-      tabsStore.cacheList
+      tabsStore.getCacheView
          .filter(item => !Reflect.has(item.meta, 'notkeepAlive')) //把不缓存的页面过滤掉
          .map(route => route.name) || ['']
    )
