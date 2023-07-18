@@ -1,0 +1,1 @@
+import{d as n,b as c,a as t,e as s,u as r}from"./index-47b55a00.js";const l=n({__name:"index",setup(a){return(e,_)=>{const o=c("a-table");return t(),s(o)}}}),i=n({__name:"index",setup(a){const e=r();return console.log(e.navMode),console.log(window.self===window.top),(_,o)=>(t(),s(l))}});export{i as default};
