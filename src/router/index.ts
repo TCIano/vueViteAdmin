@@ -152,6 +152,7 @@ const routes: Array<RouteRecordRaw> = [
       children: dirRoutes,
    },
 ]
+
 // console.log(import.meta.env.BASE_URL);
 
 const isProd = import.meta.env.MODE === 'production'

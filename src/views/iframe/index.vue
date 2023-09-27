@@ -8,7 +8,6 @@ const ifUrl = ref('https://1x.antdv.com/components/menu-cn/#API')
 // http://localhost:8081
 const iframe = ref<HTMLIFrameElement>()
 const ifHeight = ref(0)
-console.log(window.self === window.top)
 
 onMounted(() => {
    ifHeight.value = iframe.value!.parentElement!.clientHeight

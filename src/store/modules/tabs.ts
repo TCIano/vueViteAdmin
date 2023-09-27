@@ -46,7 +46,6 @@ export const useTabsStore = defineStore('tabs', {
             return state.activeKey
         },
         getCacheView: (state): Array<route> => {
-            console.log(state.cacheList);
             return state.cacheList
 
         }

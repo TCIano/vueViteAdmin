@@ -31,12 +31,15 @@ onMounted(() => {
          const re = card.getBoundingClientRect()
          const x = e.clientX - re.left
          const y = e.clientY - re.top
+
          card.style.setProperty('--x', `${x}px`)
          card.style.setProperty('--y', `${y}px`)
       })
    }
 })
-onUnmounted(() => {})
+onUnmounted(() => {
+   //    content?.removeEventListener('mousemove', e => {})
+})
 </script>
 
 <style scoped lang="less">
@@ -62,7 +65,7 @@ onUnmounted(() => {})
 }
 .inner {
    position: absolute;
-   inset: 2px;
+   inset: 1px;
    z-index: 3;
    display: flex;
    justify-content: center;
@@ -81,7 +84,7 @@ onUnmounted(() => {})
    border-radius: inherit;
    //    background: radial-gradient(closest-side circle, rgba(255, 255, 255, 0.5) 0%, transparent);
    background: radial-gradient(
-      500px circle at var(--x) var(--y),
+      circle 500px at var(--x) var(--y),
       rgba(255, 255, 255, 0.6),
       transparent 40%
    );

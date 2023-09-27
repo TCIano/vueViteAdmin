@@ -171,7 +171,7 @@ let keepAliveComponets = computed(() => {
 })
 
 const tabsList = computed(() => {
-   console.log('变化', tabsStore.getCacheView)
+   // console.log('变化', tabsStore.getCacheView)
    return tabsStore.getCacheView.length > 0
       ? tabsStore.getCacheView.map(item => {
            return {
@@ -202,7 +202,6 @@ const tabsClose = (tabKey: string) => {
    tabsStore.removeCacheView(tabKey)
    if (tabKey === activeKey.value) {
       activeKey.value = tabsList.value[tabsList.value.length - 1].path
-      console.log(tabsList.value, activeKey.value)
       selectedKeys.value = [activeKey.value]
       router.push({
          path: activeKey.value,

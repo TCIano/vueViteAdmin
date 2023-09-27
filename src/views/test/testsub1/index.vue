@@ -17,9 +17,7 @@ import {
 } from 'vue'
 // console.log(789)
 
-onActivated(() => {
-   console.log('testsub1缓存')
-})
+onActivated(() => {})
 </script>
 
 <style scoped lang="less"></style>
